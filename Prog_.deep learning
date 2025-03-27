@@ -1,0 +1,125 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNnnvBQDrvX6/1C5ypK5xHQ",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Mattia-Castiello/Time_Series_Energy_Forecasting/blob/maria-chiara-(grazia)/Prog_.deep%20learning\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "IOYe5Ee7sJpK"
+      },
+      "outputs": [],
+      "source": [
+        "import numpy as np\n",
+        "import pandas as pd\n",
+        "import tensorflow as tf\n",
+        "import os\n",
+        "import random as rd\n",
+        "import matplotlib.pyplot as plt\n",
+        "import itertools from tensorflow.keras.layers\n",
+        "import GRU, Input, Dense from tensorflow.keras.regularizers\n",
+        "import l2 from tensorflow.keras.callbacks\n",
+        "import EarlyStopping from scikeras.wrappers\n",
+        "import KerasRegressor from sklearn.model_selection # Wrapper da scikeras\n",
+        "import GridSearchCV\n",
+        "import json\n",
+        "\n",
+        "df = pd.read_excel('Dataset-Project-Deep-Learning-SMRES-Unificato.xlsx')\n",
+        "import pandas as pd\n",
+        "\n",
+        "#Creazione di una colonna di timestamp orari\n",
+        "\n",
+        "df = ['Data'] = pd.date_range(start='2021-01-01 00:00:00', periods=len(df),freq='H')\n",
+        "\n",
+        "print(df.head(10))\n",
+        "\n",
+        "day = 24*60*60\n",
+        "year = 365.2425*day\n",
+        "hour = 36000\n",
+        "date_time = pd.to_datetime(df.pop['Data'], format='%Y.%m.%d %H:%M:%S')\n",
+        "timestamp_s = date_time.map(pd.Timestamp.timestamp)\n",
+        "df['Day sin'] = np.sin(timestamp_s * (2 * np.pi / day))\n",
+        "df['Day cos'] = np.cos(timestamp_s * (2 * np.pi / day))\n",
+        "df['Year sin'] = np.sin(timestamp_s * (2 * np.pi / year))\n",
+        "df['Year cos'] = np.cos(timestamp_s * (2 * np.pi / year))\n",
+        "df['Hour sin'] = np.sin(timestamp_s * (2 * np.pi / hour))\n",
+        "df['Hour cos'] = np.cos(timestamp_s * (2 * np.pi / hour))\n",
+        "\n",
+        "print(df.head(10))\n",
+        "\n",
+        "import numpy as np\n",
+        "import tensorflow as tf from tensorflow.keras\n",
+        "import Input,Model from tensorflow.keras.layers\n",
+        "import Dense,LSTM,Concatenate,Dropout from tensorflow.keras.callbacks\n",
+        "import EarlyStopping from tensorflow.keras.optimizers\n",
+        "import Adam from sklearn.model_selection\n",
+        "import ParameterGrid\n",
+        "import matplotlib.pyplot as plt\n",
+        "import os\n",
+        "import random as rd from joblib\n",
+        "import Parallel, delayed from joblib\n",
+        "import time\n",
+        "\n",
+        "# Definisco la funzione per creare il dataset\n",
+        "\n",
+        "static_features = ['Day sin', 'Day cos', 'Year sin', 'Year cos', 'Hour sin', 'Hour cos', 'Nuvolosità[%]']\n",
+        "dynamic_features = ['Temperatura [K]', 'Irraggiamento[kWh/m2]', 'Potenza uffici (W)']\n",
+        "target_feature = 'Potenza uffici [W]'\n",
+        "\n",
+        "def create_dataset(df, static_features, dynamic_features, target_feature, window_size):\n",
+        "    X_static, X_dynamic, y = [], [], []\n",
+        "# Parto da window_size così da poter prendere i dati precedenti\n",
+        "\n",
+        "for i in range(window_size, len(df)):\n",
+        "    [i-window_size:i]\n",
+        "    dynamic_window = df[dynamic_features].iloc[i - window_size:i].values\n",
+        "    X_dynamic.append(dynamic_window)\n",
+        "    static_window = df[static_features].iloc[i - window_size:i].values\n",
+        "\n",
+        "    #Features statiche al timestamp i\n",
+        "    static_current = df[static_features].iloc[i].values\n",
+        "    X_static.append(static_window)\n",
+        "    y.append(df[target_feature].iloc[i]) #target al timestep i\n",
+        "\n",
+        "    return np.array(X_static), np.array(X_dynamic), np.array(y)\n",
+        "\n",
+        "    # Costruzione dei dataset\n",
+        "    window_size = 24\n",
+        "    X_static, X_dynamic, y = create_dataset(df, static_features, dynamic_features, target_feature, window_size)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "Cu1J3syvtiJ7"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
