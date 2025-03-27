@@ -1,0 +1,51 @@
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+import os
+import random as rd
+import matplotlib.pyplot as plt
+import itertools from tensorflow.keras.layers
+import GRU, Input, Dense from tensorflow.keras.regularizers
+import l2 from tensorflow.keras.callbacks
+import EarlyStopping from scikeras.wrappers
+import KerasRegressor from sklearn.model_selection # Wrapper da scikeras
+import GridSearchCV
+import json
+
+df = pd.read_excel('Dataset-Project-Deep-Learning-SMRES-Unificato.xlsx')
+import pandas as pd
+
+#Creazione di una colonna di timestamp orari
+
+df = ['Data'] = pd.date_range(start='2021-01-01 00:00:00', periods=len(df),freq='H')
+
+print(df.head(10))
+
+day = 24*60*60
+year = 365.2425*day
+hour = 36000
+date_time = pd.to_datetime(df.pop['Data'], format='%Y.%m.%d %H:%M:%S')
+timestamp_s = date_time.map(pd.Timestamp.timestamp)
+df['Day sin'] = np.sin(timestamp_s * (2 * np.pi / day))
+df['Day cos'] = np.cos(timestamp_s * (2 * np.pi / day))
+df['Year sin'] = np.sin(timestamp_s * (2 * np.pi / year))
+df['Year cos'] = np.cos(timestamp_s * (2 * np.pi / year))
+df['Hour sin'] = np.sin(timestamp_s * (2 * np.pi / hour))
+df['Hour cos'] = np.cos(timestamp_s * (2 * np.pi / hour))
+
+print(df.head(10))
+
+import numpy as np
+import tensorflow as tf from tensorflow.keras
+import Input,Model from tensorflow.keras.layers
+import Dense,LSTM,Concatenate,Dropout from tensorflow.keras.callbacks
+import EarlyStopping from tensorflow.keras.optimizers
+import Adam from sklearn.model_selection
+import ParameterGrid 
+import matplotlib.pyplot as plt
+import os
+import random as rd from joblib
+import Parallel, delayed from joblib
+import time
+
+# Definisco la funzione per creare il dataset
